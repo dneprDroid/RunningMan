@@ -102,8 +102,8 @@ class GameViewController: NSViewController {
         
 //        player = ColladaRig(modelNamed: "Cube" , daeNamed: "blobExport")
 //        player!.loadAnimation("walk", daeNamed: "blobRun")
-        player = ColladaRig(modelNamed: "Dude" , daeNamed: "lopolydudeMirrorRiggedExport")
-        player!.loadAnimation(withKey: "walk", daeNamed: "lopolydudeMirrorRiggedWalk")
+        player = ColladaRig(modelNamed: "ID12", armatureName: "ID13" , daeNamed: "Tiger_Walk_FBX2")
+        player!.loadAnimation(withKey: "walk", daeNamed: "Tiger_Walk_FBX", animId: "animation/1")
         scene.rootNode.addChildNode(player!.node)
         
         let playerMat = SCNMaterial()

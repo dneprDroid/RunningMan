@@ -12,20 +12,21 @@ class ColladaRig {
     let node: SCNNode
     var animations = [String: CAAnimation]()
     
-    init(modelNamed: String, daeNamed: String){
+    init(modelNamed: String, armatureName: String, daeNamed: String){
         
         let sceneSource = ColladaRig.getSceneSource(daeNamed: daeNamed)
         node = sceneSource.entryWithIdentifier(modelNamed, withClass: SCNNode.self)!
         
         //Find and add the armature
-        let armature = sceneSource.entryWithIdentifier("Armature", withClass: SCNNode.self)!
+        let armature = sceneSource.entryWithIdentifier(armatureName, withClass: SCNNode.self)!
         //In some Blender output DAE, animation is child of armature, in others it has no child. Not sure what causes this. Hence:
         armature.removeAllAnimations()
         node.addChildNode(armature)
         
         //store and trigger the "rest" animation
-        loadAnimation(withKey: "rest", daeNamed: daeNamed)
-        playAnimation(named: "rest")
+        //TODO:
+//        loadAnimation(withKey: "rest", daeNamed: daeNamed)
+//        playAnimation(named: "rest")
         
         //position node on ground
         var min = SCNVector3(0,0,0)
@@ -39,9 +40,11 @@ class ColladaRig {
         return SCNSceneSource(url: collada, options: nil)!
     }
     
-    func loadAnimation(withKey: String, daeNamed: String, fade: CGFloat = 0.3){
+    func loadAnimation(withKey: String, daeNamed: String,
+                       animId: String,
+                       fade: CGFloat = 0.3){
         let sceneSource = ColladaRig.getSceneSource(daeNamed: daeNamed)
-        let animation = sceneSource.entryWithIdentifier("\(daeNamed)-1", withClass: CAAnimation.self)!
+        let animation = sceneSource.entryWithIdentifier(animId, withClass: CAAnimation.self)!
         
         // animation.speed = 1
         animation.fadeInDuration = fade
